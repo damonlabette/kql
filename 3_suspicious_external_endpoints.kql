@@ -1,0 +1,7 @@
+DeviceNetworkEvents
+| where RemoteIPType == "Public"
+| where InitiatingProcessFileName in~ (
+  "powershell.exe","python.exe","node.exe"
+)
+| summarize ConnectionCount=count() by RemoteIP, RemoteUrl
+| order by ConnectionCount desc

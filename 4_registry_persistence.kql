@@ -1,0 +1,11 @@
+DeviceRegistryEvents
+| where ActionType == "RegistryValueSet"
+| where RegistryKey has_any (
+  "\\Run","\\RunOnce","\\RunServices"
+)
+| where RegistryValueData has_any (
+  "powershell","cmd","python","node"
+)
+| project Timestamp, DeviceName, RegistryKey,
+         RegistryValueName, RegistryValueData
+| order by Timestamp desc

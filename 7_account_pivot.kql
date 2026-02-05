@@ -1,0 +1,7 @@
+DeviceLogonEvents
+| where InitiatingProcessFileName in~ (
+  "powershell.exe","python.exe"
+)
+| project Timestamp, DeviceName, AccountName,
+         LogonType, RemoteIP
+| order by Timestamp desc

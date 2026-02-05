@@ -1,0 +1,6 @@
+let SuspiciousDevices = dynamic(["DEVICE01","DEVICE02"]);
+DeviceProcessEvents
+| where DeviceName in~ (SuspiciousDevices)
+| project Timestamp, DeviceName, FileName,
+         ProcessCommandLine, InitiatingProcessAccountName
+| order by Timestamp desc

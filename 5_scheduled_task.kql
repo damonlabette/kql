@@ -1,0 +1,4 @@
+DeviceEvents
+| where ActionType == "ScheduledTaskCreated"
+| project Timestamp, DeviceName, AdditionalFields
+| order by Timestamp desc

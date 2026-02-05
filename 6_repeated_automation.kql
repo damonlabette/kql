@@ -1,0 +1,5 @@
+DeviceProcessEvents
+| where FileName == "powershell.exe"
+| summarize DeviceCount=dcount(DeviceName) by ProcessCommandLine
+| where DeviceCount >= 3
+| order by DeviceCount desc

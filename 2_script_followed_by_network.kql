@@ -1,0 +1,13 @@
+let ScriptExecution = DeviceProcessEvents
+| where FileName in~ ("powershell.exe","python.exe","node.exe")
+| project DeviceId, ExecTime=Timestamp;
+
+let NetworkActivity = DeviceNetworkEvents
+| where RemoteIPType == "Public"
+| project DeviceId, NetTime=Timestamp, RemoteUrl, RemoteIP;
+
+ScriptExecution
+| join kind=inner NetworkActivity on DeviceId
+| where NetTime between (ExecTime .. ExecTime + 5m)
+| project DeviceId, ExecTime, NetTime, RemoteUrl, RemoteIP
+| order by ExecTime desc

@@ -1,0 +1,14 @@
+DeviceProcessEvents
+| where FileName in~ (
+  "powershell.exe","pwsh.exe","cmd.exe",
+  "wscript.exe","cscript.exe",
+  "python.exe","node.exe"
+)
+| where ProcessCommandLine has_any (
+  "-enc","-encodedcommand",
+  "Invoke-WebRequest","Invoke-Expression",
+  "curl","wget","iwr"
+)
+| project Timestamp, DeviceName, FileName, ProcessCommandLine,
+         InitiatingProcessAccountName, InitiatingProcessFileName
+| order by Timestamp desc
